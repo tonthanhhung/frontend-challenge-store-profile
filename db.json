@@ -1,0 +1,34 @@
+{
+  "stores": [
+    {
+      "id": 1,
+      "​logoUrl​": "url",
+      "​name​": "​name",
+      "​address​": "​address",
+      "​district​": "​district",
+      "​city​": "​city",
+      "​phone​": "​phone",
+      "​redInvoice​": "​redInvoice"
+    },
+    {
+      "id": 2,
+      "​logoUrl​": "url2",
+      "​name​": "​name2",
+      "​address​": "​address2",
+      "​district​": "​district2",
+      "​city​": "​city2",
+      "​phone​": "​phone2",
+      "​redInvoice​": "​redInvoice2"
+    },
+    {
+      "id": 3,
+      "​logoUrl​": "url3",
+      "​name​": "​name3",
+      "​address​": "​address3",
+      "​district​": "​district3",
+      "​city​": "​city3",
+      "​phone​": "​phone3",
+      "​redInvoice​": "​redInvoice3"
+    }
+  ]
+}
