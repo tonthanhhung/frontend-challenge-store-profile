@@ -5,7 +5,9 @@ import Button from "../Button/Button";
 import Label from "../Label/Label";
 import Input from "../Input/Input";
 import AddressInput from "../AddressInput/AddressInput";
+import { useToast } from "../Toast/Toast";
 
+const phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
 interface Props {
   defaultStore: Store;
   onModalClose: () => void;
@@ -19,8 +21,10 @@ const StoreEditorModal: React.FC<Props> = ({
   onStoreUpdate,
   open
 }) => {
+  const [errorFields, setErrorFields] = useState<string[]>([]);
   const [store, setStore] = useState<Store>(defaultStore);
   const { name, redInvoice, city, district, phone, address, logoUrl } = store;
+  const { add: addToast } = useToast();
 
   useEffect(() => {
     setStore(defaultStore);
@@ -60,6 +64,16 @@ const StoreEditorModal: React.FC<Props> = ({
     });
   };
 
+  const onSaveClick = () => {
+    setErrorFields([]);
+    if (!phoneRegex.test(store.phone)) {
+      addToast("Phone number is invalid");
+      setErrorFields(["phone"]);
+      return;
+    }
+    onStoreUpdate(store);
+  };
+
   return (
     <Modal title="Edit Store Profile" open={open}>
       <div className="flex flex-col md:flex-row">
@@ -96,7 +110,12 @@ const StoreEditorModal: React.FC<Props> = ({
           </Row>
           <Row>
             <Label>Phone #</Label>
-            <Input value={phone} name="phone" onValueChange={onStoreChange} />
+            <Input
+              value={phone}
+              name="phone"
+              onValueChange={onStoreChange}
+              invalid={errorFields.includes("phone")}
+            />
           </Row>
           <Row>
             <SectionHeadline>Red Invoice</SectionHeadline>
@@ -130,11 +149,7 @@ const StoreEditorModal: React.FC<Props> = ({
             />
           </Row>
           <Row>
-            <Button
-              default
-              className="w-full"
-              onClick={() => onStoreUpdate(store)}
-            >
+            <Button default className="w-full" onClick={onSaveClick}>
               Save
             </Button>
           </Row>
