@@ -2,6 +2,7 @@
   --transparent: rgba(0, 0, 0, 0);
   --white: #ffffff;
   --black: #000000;
+  --backdrop: #00000080;
   --tomato-100: #faafaa;
   --tomato-200: #f9948d;
   --tomato-300: #f77970;
@@ -116,6 +117,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  height: 100vh;
+  min-height: 100vh;
+  &.modal-open {
+    overflow: hidden;
+  }
+}
+
 .no-drag {
   -webkit-app-region: no-drag;
 }
@@ -123,4 +133,8 @@
 .draggable {
   -webkit-user-select: none;
   -webkit-app-region: drag;
+}
+
+input:checked + svg {
+  display: block;
 }

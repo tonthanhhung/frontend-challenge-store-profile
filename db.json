@@ -2,33 +2,36 @@
   "stores": [
     {
       "id": 1,
-      "​logoUrl​": "url",
-      "​name​": "​name",
-      "​address​": "​address",
-      "​district​": "​district",
-      "​city​": "​city",
-      "​phone​": "​phone",
-      "​redInvoice​": "​redInvoice"
+      "logoUrl": "https://i.imgur.com/BoxSKsJ.png",
+      "name": "K.O.I 22",
+      "address": "​521 Hồ Tùng Mậu",
+      "district": "",
+      "city": "Khánh Hòa",
+      "phone": "(338) 886-9944",
+      "redInvoice": {
+        "name": "K.O.I 22 The International Company",
+        "address": "9682 Wakehurst Avenue Arlington Heights",
+        "district": "Quận 1",
+        "city": "TP Hồ Chí Minh",
+        "taxCode": "P77744944"
+      },
+      "createdAt": 1577350182172
     },
     {
       "id": 2,
-      "​logoUrl​": "url2",
-      "​name​": "​name2",
-      "​address​": "​address2",
-      "​district​": "​district2",
-      "​city​": "​city2",
-      "​phone​": "​phone2",
-      "​redInvoice​": "​redInvoice2"
-    },
-    {
-      "id": 3,
-      "​logoUrl​": "url3",
-      "​name​": "​name3",
-      "​address​": "​address3",
-      "​district​": "​district3",
-      "​city​": "​city3",
-      "​phone​": "​phone3",
-      "​redInvoice​": "​redInvoice3"
+      "logoUrl": "https://i.imgur.com/BoxSKsJ.png",
+      "name": "K.O.I",
+      "address": "​521 Hồ Tùng Mậu",
+      "district": "D1",
+      "city": "HCM",
+      "phone": "(338) 886-9944",
+      "redInvoice": {
+        "name": "K.O.I The International Company",
+        "address": "9682 Wakehurst Avenue Arlington Heights",
+        "district": "IL 60004",
+        "city": "HCM",
+        "taxCode": "P77744944"
+      }
     }
   ]
 }
