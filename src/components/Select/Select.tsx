@@ -5,12 +5,12 @@ interface Props extends React.HTMLProps<HTMLSelectElement> {
   onValueChange: (p: NameValuePair) => void;
 }
 
-const Select: React.FC<Props> = ({ optional, ...props }) => {
+const Select: React.FC<Props> = ({ optional, onValueChange, ...props }) => {
   return (
     <select
       {...props}
       onChange={e =>
-        props.onValueChange({
+        onValueChange({
           name: e.currentTarget.name,
           value: e.currentTarget.value
         })

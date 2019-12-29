@@ -1,8 +1,17 @@
 import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../redux";
+import utils from "../../common/utils.js";
 
-interface Props {}
+const connector = connect(
+  ({ currentStore }: RootState) => ({
+    currentStore
+  }),
+  {}
+);
 
-const PageSideBar: React.FC<Props> = props => {
+type Props = ConnectedProps<typeof connector>;
+const PageSideBar: React.FC<Props> = ({ currentStore }) => {
   const dashboardGroup: DisplayGroupMenu = {
     groupName: "Dashboard",
     items: ["Overview", "Order", "Supplier List", "Statistic"]
@@ -19,16 +28,15 @@ const PageSideBar: React.FC<Props> = props => {
     <div className="border-r bg-white flex flex-col w-0 lg:w-48 lg:w-56">
       <div className="__profileBriefInfo flex p-4 border-b">
         <img
-          alt="profile-image"
-          src="https://i.imgur.com/BoxSKsJ.png"
-          className="w-8 h-8 rounded-full"
+          src={currentStore && currentStore.logoUrl}
+          className="w-8 h-8 rounded-full object-contain"
         />
         <div className="flex flex-col ml-5">
           <span className="__store-name text-black uppercase font-semibold text-sm">
-            Kamereo
+            {currentStore && currentStore.name}
           </span>
           <span className="__address text-xs text-gray-500">
-            135 Hai Ba Trung
+            {currentStore && utils.getFullAddress({ ...currentStore })}
           </span>
           <a
             href="#"
@@ -68,4 +76,4 @@ const MenuGroup = ({ menuGroup }: { menuGroup: DisplayGroupMenu }) => {
   );
 };
 
-export default PageSideBar;
+export default connector(PageSideBar);

@@ -2,17 +2,17 @@
   "stores": [
     {
       "id": 1,
-      "logoUrl": "https://i.imgur.com/BoxSKsJ.png",
-      "name": "K.O.I 22",
+      "logoUrl": "https://i.imgur.com/5XRFWg8.png",
+      "name": "K.O.I 1234",
       "address": "​521 Hồ Tùng Mậu",
-      "district": "",
-      "city": "Khánh Hòa",
-      "phone": "0707 989 2345",
+      "district": "Quận 3",
+      "city": "TP Hồ Chí Minh",
+      "phone": "0707 989 2345 213123",
       "redInvoice": {
         "name": "K.O.I 22 The International Company",
         "address": "9682 Wakehurst Avenue Arlington Heights",
-        "district": "Quận 1",
-        "city": "TP Hồ Chí Minh",
+        "district": "Huyện Đông Anh",
+        "city": "Hà Nội",
         "taxCode": "P77744944"
       },
       "createdAt": 1577350182172

@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
-import address from "./cities";
+import cities from "./cities";
+import currentStore from "./store";
 
-export default combineReducers({
-  address
-});
+export type RootState = {
+  cities: City[];
+  currentStore: Store;
+};
+
+export default combineReducers({ cities, currentStore });

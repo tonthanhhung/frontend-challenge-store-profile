@@ -6,6 +6,7 @@ import Label from "../Label/Label";
 import Input from "../Input/Input";
 import AddressInput from "../AddressInput/AddressInput";
 import { useToast } from "../Toast/Toast";
+import { apiUploadImg } from "../../api";
 
 const phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
 interface Props {
@@ -74,17 +75,32 @@ const StoreEditorModal: React.FC<Props> = ({
     onStoreUpdate(store);
   };
 
+  const onUploadProfileImg = (e: React.FormEvent<HTMLInputElement>) => {
+    if (e.currentTarget.files && e.currentTarget.files.length) {
+      apiUploadImg(e.currentTarget.files[0]).then(logoUrl => {
+        setStore({
+          ...store,
+          logoUrl
+        });
+      });
+    }
+  };
+
   return (
     <Modal title="Edit Store Profile" open={open}>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/3 inline-block text-left flex flex-col">
           <SectionHeadline>Store Image</SectionHeadline>
+
           <img
-            alt="store-profile-img"
             src={logoUrl}
-            className="rounded-lg mb-4 max-w-xs mx-auto w-11/12 sm:w-full"
+            className="rounded-lg mb-4 max-w-xs mx-auto w-11/12 sm:w-full object-fill"
           />
-          <Button className="ml-auto">Upload Image</Button>
+
+          <label className="fileUploader bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded text-sm text-gray-800 hover:text-gray-800 ml-auto">
+            <input type="file" onChange={onUploadProfileImg} />
+            Upload Image
+          </label>
         </div>
         <div className="w-full md:w-2/3 flex flex-col text-left pl-0 md:pl-6">
           <SectionHeadline>Basic info</SectionHeadline>

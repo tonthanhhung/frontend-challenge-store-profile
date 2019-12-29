@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getStoreById, updateStore } from "../../api";
 import StoreDetail from "../StoreDetail/StoreDetail";
 import SectionHeadline from "../SectionHeadline/SectionHeadline";
 import BoxInfo from "../BoxInfo/BoxInfo";
@@ -7,28 +6,46 @@ import InputWithEnability from "../InputWithEnability/InputWithEnability";
 import Button from "../Button/Button";
 import StoreEditorModal from "../StoreEditorModal/StoreEditorModal";
 import { useToast } from "../Toast/Toast";
+import { connect, ConnectedProps } from "react-redux";
+import { getStore, putStore } from "../../redux/store";
+import { RootState } from "../../redux";
 
-interface Props {}
+const connector = connect(
+  (state: RootState) => ({
+    currentStore: state.currentStore
+  }),
+  {
+    getStore,
+    putStore
+  }
+);
 
-const StoreDetailPage: React.FC<Props> = props => {
-  const [currentStore, setCurrentStore] = useState<Store>();
-  const [storeEditorModalOpen, setStoreEditorModalOpen] = useState(true);
+type Props = ConnectedProps<typeof connector> & {};
 
+const StoreDetailPage: React.FC<Props> = ({
+  currentStore,
+  getStore,
+  putStore
+}) => {
+  const [storeEditorModalOpen, setStoreEditorModalOpen] = useState(false);
   const { add: addToast } = useToast();
   useEffect(() => {
-    getStoreById(1).then(setCurrentStore);
+    getStore(1);
   }, []);
 
   function onStoreUpdate(store: Store) {
     if (store) {
-      updateStore(store)
-        .then(() => {
-          setCurrentStore(store);
-          setStoreEditorModalOpen(false);
-        })
-        .catch(error => {
-          addToast(error.response.data);
-        });
+      putStore({
+        store,
+        meta: {
+          onSuccess: () => {
+            setStoreEditorModalOpen(false);
+          },
+          onError: (error: string) => {
+            addToast(error);
+          }
+        }
+      });
     }
   }
 
@@ -76,4 +93,4 @@ const StoreDetailPage: React.FC<Props> = props => {
   );
 };
 
-export default StoreDetailPage;
+export default connector(StoreDetailPage);

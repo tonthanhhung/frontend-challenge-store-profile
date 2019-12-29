@@ -3,6 +3,9 @@ const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const request = require("request");
 const middlewares = jsonServer.defaults();
+const multer = require("multer");
+const ImgurStorage = require("@trevorblades/multer-storage-imgur");
+require("dotenv").config();
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
@@ -36,16 +39,28 @@ server.use((req, res, next) => {
   next();
 });
 
+/**
+ * This is a borrowed api, the return data may not be so trusted
+ */
 server.get("/cities", (req, res) => {
-  // make request to IEX API and forward response
   request("https://thongtindoanhnghiep.co/api/city").pipe(res);
 });
 server.get("/districts", (req, res) => {
   const cityId = req.query["city"];
   const url = `https://thongtindoanhnghiep.co/api/city/${cityId}/district`;
-  // make request to IEX API and forward response
   request(url).pipe(res);
 });
+
+const imgurClientId = process.env.IMGUR_CLIENT_ID;
+server.post(
+  "/image-upload",
+  multer({
+    storage: ImgurStorage({ clientId: imgurClientId })
+  }).single("image"),
+  (req, res) => {
+    res.send(req.file.data.link);
+  }
+);
 
 server.use(router);
 server.listen(3000, () => {

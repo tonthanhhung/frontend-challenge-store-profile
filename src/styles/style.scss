@@ -138,3 +138,10 @@ body {
 input:checked + svg {
   display: block;
 }
+
+.fileUploader {
+  cursor: pointer !important;
+  input[type="file"] {
+    display: none;
+  }
+}

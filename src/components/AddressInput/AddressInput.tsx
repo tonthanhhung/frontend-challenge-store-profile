@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { getCities, getDistrict } from "../../api";
 import Input from "../Input/Input";
 import Select from "../Select/Select";
+import { connect, ConnectedProps } from "react-redux";
+import { getCitiesRequest } from "../../redux/cities";
+import { apiGetDistrict } from "../../api";
+import { RootState } from "../../redux";
 
-interface Props {
+const connector = connect(
+  (state: RootState) => ({
+    cities: state.cities
+  }),
+  { getCitiesRequest }
+);
+type Props = ConnectedProps<typeof connector> & {
   onChange: (address: AddressInfo) => void;
   address: AddressInfo;
-}
+};
 
-const AddressInput: React.FC<Props> = ({ onChange, address }) => {
-  const [districts, setDistricts] = useState<District[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
+const AddressInput: React.FC<Props> = ({
+  onChange,
+  address,
+  getCitiesRequest,
+  cities
+}) => {
+  const [districts, setDistricts] = useState<District[] | null>(null);
+
   useEffect(() => {
-    getCities().then(setCities);
+    if (!cities) {
+      getCitiesRequest();
+    }
   }, []);
   useEffect(() => {
-    const selectedCity = cities.find(c => c.Title === address.city);
+    const selectedCity = cities && cities.find(c => c.Title === address.city);
     if (selectedCity) {
-      getDistrict(selectedCity).then(setDistricts);
-    } else {
-      setDistricts([]);
+      apiGetDistrict(selectedCity).then(setDistricts);
     }
   }, [address.city, cities]);
 
@@ -52,8 +66,12 @@ const AddressInput: React.FC<Props> = ({ onChange, address }) => {
         onValueChange={onFieldChange}
         className="mr-2 mb-2 md:mb-0 w-full md:w-4/12"
       >
-        {districts.length ? (
-          districts.map(d => <option value={d.Title}>{d.Title}</option>)
+        {districts ? (
+          districts.map(d => (
+            <option key={d.Title} value={d.Title}>
+              {d.Title}
+            </option>
+          ))
         ) : (
           <option value={address.district}>{address.district}</option>
         )}
@@ -66,8 +84,12 @@ const AddressInput: React.FC<Props> = ({ onChange, address }) => {
         onValueChange={onCityChange}
         className="md:w-3/12"
       >
-        {cities.length ? (
-          cities.map(city => <option value={city.Title}>{city.Title}</option>)
+        {cities ? (
+          cities.map(city => (
+            <option key={city.Title} value={city.Title}>
+              {city.Title}
+            </option>
+          ))
         ) : (
           <option value={address.city}>{address.city}</option>
         )}
@@ -76,4 +98,4 @@ const AddressInput: React.FC<Props> = ({ onChange, address }) => {
   );
 };
 
-export default AddressInput;
+export default connector(AddressInput);

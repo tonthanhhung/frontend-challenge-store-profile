@@ -1,5 +1,5 @@
 import React from "react";
-import classNames from "classNames";
+import cx from "classnames";
 
 interface Props {
   label?: React.ReactNode;
@@ -11,7 +11,7 @@ const CheckBox: React.FC<Props> = ({ label, checked, onChange }) => {
   return (
     <label className="flex justify-start items-start">
       <div
-        className={classNames(
+        className={cx(
           "border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500",
           checked ? "bg-green-600" : "bg-white "
         )}
