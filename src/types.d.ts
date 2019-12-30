@@ -1,10 +1,13 @@
 interface DisplayGroupMenu {
   groupName: string;
-  items: string[];
+  items: {
+    name: string;
+    icon: JSX.Element;
+  }[];
 }
 
 interface Store {
-  id: string;
+  id: number;
   logoUrl: string;
   name: string;
   address: string;

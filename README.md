@@ -1,6 +1,15 @@
 ## Store Profile Management
 
-### TODO
+### Some notes afterward
+
+- Why tailwind.css? It's fast to develop something new even thought the class is long it's worth it, Tailwind is not like any other CSS Framework out there by hiding the magic of css in their implementation which make developers be less confident in real CSS.
+- > Please suggest if you found any improvements that we should make on the design
+
+  - This design is quite good already, some minors thing could be bring to discuss is the placement of City, District fields in address area, it's a bit confusing when they have to move from right to left to finish it, because without the city, there's no districts.
+  - The space in header and above the text "Store Information" could be reduce. In some small screen, those spaces will push the `Edit Button` aways the viewport which make user have to scroll a bit to edit profile
+  - The Sidebar text color is not so good (missing contrast), for menu items, address info is too small
+
+### Main requirement
 
 - [x] Implement UI base on Mockup, mock data, edit store profile with api call
 - [x] UI Responsive
@@ -18,7 +27,7 @@ Require techs:
 - [x] React
 - [x] Redux
 - [x] Redux-saga
-- [ ] Unit test with jest
+- [x] Unit test with jest
 
 Nice to have
 
@@ -26,12 +35,18 @@ Nice to have
 
 Please suggest if you found any improvements that we should make on the design
 
-### How to use
+### How to start
 
 - Start developement (JsonServer mock api and web app)
 
 ```
     $ yarn start
+```
+
+- Test
+
+```
+    $ yarn test
 ```
 
 - Build web app (without JsonServer included)

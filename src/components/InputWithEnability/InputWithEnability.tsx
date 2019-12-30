@@ -16,7 +16,7 @@ const InputWithEnability: React.FC<Props> = ({ value, onChange }) => {
         disabled={!enableInput}
         className="px-3 py-2 flex-grow"
         value={value}
-        onChange={e => onChange(e.currentTarget.value)}
+        onValueChange={({ value }) => onChange(value)}
         placeholder="Write your message"
       />
     </div>

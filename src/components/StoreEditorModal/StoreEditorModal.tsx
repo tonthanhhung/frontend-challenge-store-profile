@@ -7,6 +7,8 @@ import Input from "../Input/Input";
 import AddressInput from "../AddressInput/AddressInput";
 import { useToast } from "../Toast/Toast";
 import { apiUploadImg } from "../../api";
+import { FaPencilAlt } from "react-icons/fa";
+import cx from "classnames";
 
 const phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
 interface Props {
@@ -25,6 +27,7 @@ const StoreEditorModal: React.FC<Props> = ({
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [store, setStore] = useState<Store>(defaultStore);
   const { name, redInvoice, city, district, phone, address, logoUrl } = store;
+  const [profileImageUploading, setProfileImageUploading] = useState(false);
   const { add: addToast } = useToast();
 
   useEffect(() => {
@@ -77,30 +80,65 @@ const StoreEditorModal: React.FC<Props> = ({
 
   const onUploadProfileImg = (e: React.FormEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files.length) {
-      apiUploadImg(e.currentTarget.files[0]).then(logoUrl => {
-        setStore({
-          ...store,
-          logoUrl
+      setProfileImageUploading(true);
+      apiUploadImg(e.currentTarget.files[0])
+        .then(logoUrl => {
+          setProfileImageUploading(false);
+          setStore({
+            ...store,
+            logoUrl
+          });
+        })
+        .catch(e => {
+          console.error("ERROR| Error while uploading profile image, : ", e);
+          addToast("Error while uploading profile image");
         });
-      });
     }
   };
 
+  const onRemoveProfileImageClick = () => {
+    setStore({ ...store, logoUrl: defaultStore.logoUrl });
+  };
+
   return (
-    <Modal title="Edit Store Profile" open={open}>
-      <div className="flex flex-col md:flex-row">
+    <Modal
+      title={
+        <>
+          <FaPencilAlt className="mr-4 text-lg text-green-600" />
+          Edit Store Profile
+        </>
+      }
+      open={open}
+    >
+      <div className="flex flex-col md:flex-row" data-testid="storeEditorModal">
         <div className="w-full md:w-1/3 inline-block text-left flex flex-col">
           <SectionHeadline>Store Image</SectionHeadline>
-
           <img
             src={logoUrl}
             className="rounded-lg mb-4 max-w-xs mx-auto w-11/12 sm:w-full object-fill"
           />
-
-          <label className="fileUploader bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded text-sm text-gray-800 hover:text-gray-800 ml-auto">
-            <input type="file" onChange={onUploadProfileImg} />
-            Upload Image
-          </label>
+          <div className="flex justify-end items-center ">
+            <span
+              title="Reset to original profile image"
+              onClick={onRemoveProfileImageClick}
+              className="mr-4 cursor-pointer text-gray-600"
+            >
+              Remove
+            </span>
+            <label
+              className={cx(
+                "fileUploader bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded text-sm text-gray-800 hover:text-gray-800",
+                { "pointer-events-none": profileImageUploading }
+              )}
+            >
+              <input
+                type="file"
+                onChange={onUploadProfileImg}
+                disabled={profileImageUploading}
+              />
+              {profileImageUploading ? "Uploading..." : "Upload Image"}
+            </label>
+          </div>
         </div>
         <div className="w-full md:w-2/3 flex flex-col text-left pl-0 md:pl-6">
           <SectionHeadline>Basic info</SectionHeadline>
@@ -181,7 +219,7 @@ const StoreEditorModal: React.FC<Props> = ({
 };
 
 const Row: React.FC<{}> = ({ children }) => (
-  <div className="mb-2">{children}</div>
+  <div className="my-1">{children}</div>
 );
 
 export default StoreEditorModal;

@@ -1,9 +1,9 @@
+import { AnyAction } from "redux";
+
 export const storeActionType = {
   FETCH: "store/FETCH",
   FETCH_SUCCESS: "store/FETCH_SUCCESS",
-  PUT: "store/PUT",
-  PUT_SUCCESS: "store/PUT_SUCCESS",
-  PUT_ERROR: "store/PUT_ERROR"
+  PUT: "store/PUT"
 };
 
 export const getStore = (id: number) => ({
@@ -31,11 +31,10 @@ export const putStore = (payload: {
 
 export default function reducer(
   state: Store | null = null,
-  action: any
+  action: AnyAction
 ): Store | null {
   switch (action.type) {
     case storeActionType.FETCH_SUCCESS:
-    case storeActionType.PUT_SUCCESS:
       return action.payload;
     default:
       return state;

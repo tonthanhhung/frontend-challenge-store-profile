@@ -3,7 +3,7 @@ import SectionHeadline from "../SectionHeadline/SectionHeadline";
 import Button from "../Button/Button";
 import BoxInfo from "../BoxInfo/BoxInfo";
 import Label from "../Label/Label";
-import utils from "../../common/utils.js";
+import utils from "../../common/utils";
 
 interface Props {
   store: Store;
@@ -27,7 +27,9 @@ const StoreDetail: React.FC<Props> = ({ store, onEditProfileClick }) => {
       <Info label="Company Name" value={redInvoice.name} />
       <Info label="Address" value={utils.getFullAddress(redInvoice)} />
       <Info label="MST" value={redInvoice.taxCode} />
-      <Button onClick={onEditProfileClick}>Edit Profile</Button>
+      <Button onClick={onEditProfileClick} data-testid="editProfileBtn">
+        Edit Profile
+      </Button>
     </BoxInfo>
   );
 };
